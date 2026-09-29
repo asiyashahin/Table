@@ -1,20 +1,27 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "C:\\src\\flutter\\bin;${env.PATH}"
+    }
+
     stages {
 
-        stage('Check') {
+        stage('Clone') {
             steps {
-                bat 'echo Hello from Jenkins'
+                checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Flutter Version') {
             steps {
-                bat 'git config --global --add safe.directory C:/src/flutter_windows_3.47.5-stable/flutter'
                 bat 'flutter --version'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
                 bat 'flutter pub get'
-                bat 'flutter build apk'
             }
         }
 
